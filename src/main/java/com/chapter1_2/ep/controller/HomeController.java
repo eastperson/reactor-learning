@@ -1,17 +1,14 @@
-package com.example.ep.controller;
+package com.chapter1_2.ep.controller;
 
-import com.example.ep.model.Cart;
-import com.example.ep.model.CartItem;
-import com.example.ep.repository.CartRepository;
-import com.example.ep.repository.ItemRepository;
-import com.example.ep.service.CartService;
-import com.example.ep.service.ItemService;
+import com.chapter1_2.ep.model.Cart;
+import com.chapter1_2.ep.repository.CartRepository;
+import com.chapter1_2.ep.repository.ItemRepository;
+import com.chapter1_2.ep.service.CartService;
+import com.chapter1_2.ep.service.ItemService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
 
@@ -34,7 +31,9 @@ public class HomeController {
     @GetMapping
     Mono<Rendering> home() {
         return Mono.just(Rendering.view("home.html")
-                .modelAttribute("items",this.itemRepository.findAll())
+                .modelAttribute("items",this.itemRepository.findAll()
+                    .doOnNext(System.out::println)
+                )
                 .modelAttribute("cart",this.cartRepository.findById("My Cart").defaultIfEmpty(new Cart("My Cart")))
                 .build());
 
@@ -45,6 +44,8 @@ public class HomeController {
         return cartService.addToCart("My Cart",id).thenReturn("redirect:/");
     }
 
+
+    /*
     @GetMapping("/search")
     Mono<Rendering> search(
             @RequestParam(required = false) String name,
@@ -54,4 +55,6 @@ public class HomeController {
                 .modelAttribute("results", itemService.searchByExample(name,description,useAnd))
                 .build());
     }
+     */
+
 }

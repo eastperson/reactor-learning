@@ -1,6 +1,6 @@
-package com.example.ep.repository;
+package com.chapter1_2.ep.repository;
 
-import com.example.ep.model.Cart;
+import com.chapter1_2.ep.model.Cart;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 public interface CartRepository extends ReactiveCrudRepository<Cart,String> {

@@ -1,6 +1,6 @@
-package com.example.ep.service;
+package com.chapter1_2.ep.service;
 
-import com.example.ep.model.Dish;
+import com.chapter1_2.ep.model.Dish;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 

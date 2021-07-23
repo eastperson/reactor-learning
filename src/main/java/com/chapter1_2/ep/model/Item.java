@@ -1,4 +1,4 @@
-package com.example.ep.model;
+package com.chapter1_2.ep.model;
 
 import com.mongodb.client.model.geojson.Point;
 import lombok.AllArgsConstructor;
@@ -27,8 +27,8 @@ public class Item {
     private Point location;
     private boolean active;
 
-    public Item(String id, String description, double price) {
-        this.id = id;
+    public Item(String name, String description, double price) {
+        this.name = name;
         this.description = description;
         this.price = price;
     }

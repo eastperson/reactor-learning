@@ -1,10 +1,9 @@
-package com.example.ep.service;
+package com.chapter1_2.ep.service;
 
-import com.example.ep.model.Cart;
-import com.example.ep.model.CartItem;
-import com.example.ep.model.Item;
-import com.example.ep.repository.CartRepository;
-import com.example.ep.repository.ItemRepository;
+import com.chapter1_2.ep.model.Cart;
+import com.chapter1_2.ep.model.CartItem;
+import com.chapter1_2.ep.repository.CartRepository;
+import com.chapter1_2.ep.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 

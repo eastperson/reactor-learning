@@ -1,4 +1,4 @@
-package com.example.ep.model;
+package com.chapter1_2.ep.model;
 
 import org.springframework.data.annotation.Id;
 

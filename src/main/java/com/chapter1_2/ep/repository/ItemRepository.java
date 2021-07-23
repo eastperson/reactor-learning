@@ -1,7 +1,6 @@
-package com.example.ep.repository;
+package com.chapter1_2.ep.repository;
 
-import com.example.ep.model.Item;
-import org.springframework.data.mongodb.repository.Query;
+import com.chapter1_2.ep.model.Item;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 
@@ -9,11 +8,11 @@ public interface ItemRepository extends ReactiveCrudRepository<Item,String> {
 
     Flux<Item> findByNameContaining(String partialName);
 
-    @Query("{'name' : ?0, 'age' : ?1}")
-    Flux<Item> findItemsForCustomerMonthlyReport(String name, int age);
+//    @Query("{'name' : ?0, 'age' : ?1}")
+//    Flux<Item> findItemsForCustomerMonthlyReport(String name, int age);
 
-    @Query(sort = "{'age' : -1}")
-    Flux<Item> findSortedStuffForWeeklyReport();
+//    @Query(sort = "{'age' : -1}")
+//    Flux<Item> findSortedStuffForWeeklyReport();
 
     // name 검색
     Flux<Item> findByNameContainingIgnoreCase(String partialName);

@@ -1,8 +1,9 @@
-package com.example.ep.service;
+package com.chapter1_2.ep.service;
 
-import com.example.ep.model.Item;
-import com.example.ep.repository.ItemByExampleRepository;
-import com.example.ep.repository.ItemRepository;
+import com.chapter1_2.ep.model.Item;
+//import com.example.ep.repository.ItemByExampleRepository;
+import com.chapter1_2.ep.repository.ItemRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
@@ -14,17 +15,12 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
+@RequiredArgsConstructor
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final ItemByExampleRepository itemByExampleRepository;
+//    private final ItemByExampleRepository itemByExampleRepository;
     private final ReactiveFluentMongoOperations fluentMongoOperations;
-
-    ItemService(ItemRepository itemRepository, ItemByExampleRepository itemByExampleRepository,ReactiveFluentMongoOperations fluentMongoOperations) {
-        this.itemRepository = itemRepository;
-        this.itemByExampleRepository = itemByExampleRepository;
-        this.fluentMongoOperations = fluentMongoOperations;
-    }
 
     // 최악의 분기처리
     Flux<Item> search(String partialName, String partialDescription, boolean useAnd) {
@@ -48,6 +44,8 @@ public class ItemService {
         }
     }
 
+
+    /*
     public Flux<Item> searchByExample(String name, String description, boolean useAnd) {
         Item item = new Item(name,description,0.0);
 
@@ -63,6 +61,7 @@ public class ItemService {
 
         return itemByExampleRepository.findAll(probe);
     }
+     */
 
     public Flux<Item> searchByFluentExample(String name, String description) {
 

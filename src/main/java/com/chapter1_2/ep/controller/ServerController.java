@@ -1,13 +1,11 @@
-package com.example.ep.controller;
+package com.chapter1_2.ep.controller;
 
-import com.example.ep.model.Dish;
-import com.example.ep.service.KitchenService;
+import com.chapter1_2.ep.model.Dish;
+import com.chapter1_2.ep.service.KitchenService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-
-import java.awt.*;
 
 @RestController
 public class ServerController {
