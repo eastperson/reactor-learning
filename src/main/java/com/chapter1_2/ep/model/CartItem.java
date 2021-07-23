@@ -18,6 +18,10 @@ public class CartItem {
         this.quantity += 1;
     }
 
+    public void decrement() {
+        this.quantity--;
+    }
+
     public void increment(int num){
         this.quantity += num;
     }

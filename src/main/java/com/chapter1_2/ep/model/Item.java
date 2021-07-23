@@ -27,6 +27,13 @@ public class Item {
     private Point location;
     private boolean active;
 
+    public Item(String id,String name, String description, double price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     public Item(String name, String description, double price) {
         this.name = name;
         this.description = description;

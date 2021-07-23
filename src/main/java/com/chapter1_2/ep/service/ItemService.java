@@ -1,7 +1,10 @@
 package com.chapter1_2.ep.service;
 
+import com.chapter1_2.ep.model.Cart;
+import com.chapter1_2.ep.model.CartItem;
 import com.chapter1_2.ep.model.Item;
 //import com.example.ep.repository.ItemByExampleRepository;
+import com.chapter1_2.ep.repository.CartRepository;
 import com.chapter1_2.ep.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -9,81 +12,80 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.query.Criteria.byExample;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
-@RequiredArgsConstructor
 public class ItemService {
 
-    private final ItemRepository itemRepository;
-//    private final ItemByExampleRepository itemByExampleRepository;
-    private final ReactiveFluentMongoOperations fluentMongoOperations;
+    private ItemRepository itemRepository;
 
-    // 최악의 분기처리
-    Flux<Item> search(String partialName, String partialDescription, boolean useAnd) {
-        if(partialName != null) {
-            if(partialDescription != null) {
-                if(useAnd) {
-                    return itemRepository
-                            .findByNameContainingAndDescriptionContainingAllIgnoreCase(partialName,partialDescription);
-                } else {
-                    return itemRepository.findByNameContainingOrDescriptionContainingAllIgnoreCase(partialName,partialDescription);
-                }
-            } else {
-                return itemRepository.findByNameContaining(partialName);
-            }
-        } else {
-            if(partialDescription != null) {
-                return itemRepository.findByDescriptionContainingIgnoreCase(partialDescription);
-            } else {
-                return itemRepository.findAll();
-            }
-        }
+    private CartRepository cartRepository;
+
+    public ItemService(ItemRepository repository,
+                     CartRepository cartRepository) {
+        this.itemRepository = repository;
+        this.cartRepository = cartRepository;
     }
 
-
-    /*
-    public Flux<Item> searchByExample(String name, String description, boolean useAnd) {
-        Item item = new Item(name,description,0.0);
-
-        ExampleMatcher matcher = (useAnd
-            ? ExampleMatcher.matchingAll()
-            : ExampleMatcher.matchingAny())
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                .withIgnoreCase()
-                .withIgnorePaths("price");
-
-
-        Example<Item> probe = Example.of(item,matcher);
-
-        return itemByExampleRepository.findAll(probe);
-    }
-     */
-
-    public Flux<Item> searchByFluentExample(String name, String description) {
-
-        return fluentMongoOperations.query(Item.class)
-                .matching(query(where("TV tray").is(name).and("Smutf").is(description)))
-                .all();
+    public Mono<Cart> getCart(String cartId) {
+        return this.cartRepository.findById(cartId);
     }
 
-    public Flux<Item> searchByFluentExample(String name, String description, boolean useAnd) {
+    public Flux<Item> getInventory() {
+        return this.itemRepository.findAll();
+    }
 
-        Item item = new Item(name,description,0.0);
+    Mono<Item> saveItem(Item newItem) {
+        return this.itemRepository.save(newItem);
+    }
 
-        ExampleMatcher matcher = (useAnd
-                ? ExampleMatcher.matchingAll()
-                : ExampleMatcher.matchingAny())
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                .withIgnoreCase()
-                .withIgnorePaths("price");
+    Mono<Void> deleteItem(String id) {
+        return this.itemRepository.deleteById(id);
+    }
 
-        return fluentMongoOperations.query(Item.class)
-                .matching(query(byExample(Example.of(item,matcher))))
-                .all();
+    public Mono<Cart> addItemToCart(String cartId, String itemId) {
+
+        Cart myCart = this.cartRepository.findById(cartId)
+                .defaultIfEmpty(new Cart(cartId))
+                .block(); // 블로킹 코드 호출
+
+        return myCart.getCartItems().stream()
+                .filter(cartItem -> cartItem.getItem().getId().equals(itemId))
+                .findAny()
+                        .map(cartItem -> {
+                            cartItem.increment();
+                            return Mono.just(myCart);
+                        }) //
+                        .orElseGet(() ->
+                            this.itemRepository.findById(itemId) //
+                                    .map(item -> new CartItem(item)) //
+                                    .map(cartItem -> {
+                                        myCart.getCartItems().add(cartItem);
+                                        return myCart;
+                        })).flatMap(cart -> this.cartRepository.save(cart));
+    }
+
+    Mono<Cart> removeOneFromCart(String cartId, String itemId) {
+        return this.cartRepository.findById(cartId)
+                .defaultIfEmpty(new Cart(cartId))
+                .flatMap(cart -> cart.getCartItems().stream()
+                        .filter(cartItem -> cartItem.getItem().getId().equals(itemId))
+                        .findAny()
+                        .map(cartItem -> {
+                            cartItem.decrement();
+                            return Mono.just(cart);
+                        }) //
+                        .orElse(Mono.empty()))
+                .map(cart -> new Cart(cart.getId(), cart.getCartItems().stream()
+                        .filter(cartItem -> cartItem.getQuantity() > 0)
+                        .collect(Collectors.toList())))
+                .flatMap(cart -> this.cartRepository.save(cart));
     }
 
 }
