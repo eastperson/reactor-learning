@@ -7,17 +7,13 @@ import com.chapter1_2.ep.repository.CartRepository;
 import com.chapter1_2.ep.repository.ItemRepository;
 import com.chapter1_2.ep.service.ItemService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
-import java.time.Duration;
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -45,19 +41,19 @@ public class BlcokHoundIntegrationTest {
         itemService = new ItemService(itemRepository,cartRepository);
     }
 
-    @Test
-    void blockHondShouldTrapBlockingCall(){
-
-        //리액트 안에서 실행
-        // delay()를 실행해서 후속 작업이 리액터 스레드 안에서 실행되도록한다.
-        Mono.delay(Duration.ofSeconds(1))
-                // tick 이벤트가 발생하면 addItemToCart()를 실행시킨다.
-                .flatMap(tick -> itemService.addItemToCart("My Cart","item1"))
-                .as(StepVerifier::create)
-                // 블로킹 호출이 있으므로 예외가 발생하며 assert로 검증한다.
-                .verifyErrorSatisfies(throwable -> {
-                    assertThat(throwable).hasMessageContaining("block()/blockFirst()/blockLast are blocking");
-                });
-    }
+//    @Test
+//    void blockHondShouldTrapBlockingCall(){
+//
+//        //리액트 안에서 실행
+//        // delay()를 실행해서 후속 작업이 리액터 스레드 안에서 실행되도록한다.
+//        Mono.delay(Duration.ofSeconds(1))
+//                // tick 이벤트가 발생하면 addItemToCart()를 실행시킨다.
+//                .flatMap(tick -> itemService.addItemToCart("My Cart","item1"))
+//                .as(StepVerifier::create)
+//                // 블로킹 호출이 있으므로 예외가 발생하며 assert로 검증한다.
+//                .verifyErrorSatisfies(throwable -> {
+//                    assertThat(throwable).hasMessageContaining("block()/blockFirst()/blockLast are blocking");
+//                });
+//    }
 
 }
