@@ -23,24 +23,24 @@ import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 @Configuration
 public class AppConfig {
 
-    @Bean
-    HttpTraceRepository traceRepository(){
-        return new InMemoryHttpTraceRepository();
-    }
+//    @Bean
+//    HttpTraceRepository traceRepository(){
+//        return new InMemoryHttpTraceRepository();
+//    }
 
-    @Bean
-    HttpTraceRepository springDataTraceRepository(HttpTraceWrapperRepository repository){
-        return new SpringDataHttpTraceRepository(repository);
-    }
-
-    @Bean
-    public MappingMongoConverter mappingMongoConverter(MongoMappingContext context){
-        MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(NoOpDbRefResolver.INSTANCE,context);
-
-        mappingMongoConverter.setCustomConversions(new MongoCustomConversions(Collections.singletonList(CONVERTER)));
-
-    return mappingMongoConverter;
-    }
+//    @Bean
+//    HttpTraceRepository springDataTraceRepository(HttpTraceWrapperRepository repository){
+//        return new SpringDataHttpTraceRepository(repository);
+//    }
+//
+//    @Bean
+//    public MappingMongoConverter mappingMongoConverter(MongoMappingContext context){
+//        MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(NoOpDbRefResolver.INSTANCE,context);
+//
+//        mappingMongoConverter.setCustomConversions(new MongoCustomConversions(Collections.singletonList(CONVERTER)));
+//
+//        return mappingMongoConverter;
+//    }
 
     static Converter<Document, HttpTraceWrapper> CONVERTER =
             new Converter<Document, HttpTraceWrapper>() {
