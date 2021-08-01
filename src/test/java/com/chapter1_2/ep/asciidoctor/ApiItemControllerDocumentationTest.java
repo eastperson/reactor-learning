@@ -20,12 +20,14 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 // ApiItemController.class 이친구만 집중적으로 테스트한다.
+// WebFlux 컨트롤러 테스트에 필용한 내용만 자동 설정
 @WebFluxTest(controllers = ApiItemController.class)
 // 스프링 레스트 독 사용에 필요한 내용을 자동으로 설정
 @AutoConfigureRestDocs
 public class ApiItemControllerDocumentationTest {
 
     @Autowired private WebTestClient webTestClient;
+    // WebFlux 테스트는 웹플럭스 관련 빈만 주입하기 때문에 MockBean으로 넣어줘야 한다.
     @MockBean ItemService itemService;
     @MockBean ItemRepository itemRepository;
 

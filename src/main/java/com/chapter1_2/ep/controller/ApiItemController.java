@@ -39,7 +39,7 @@ public class ApiItemController {
     Mono<ResponseEntity<?>> addNewItem(@RequestBody Mono<Item> item) {
 
         // 본문에 들어온 item 객체에 map이나 flatMap 연산을 적용한다.
-        //  인자로 받은 mONO에서 스프링 데이터의 SAVE()메소드에 전달되고 다시 Mono를 반환하므로 flatMap을 사용한다.
+        // 인자로 받은 Mono에서 스프링 데이터의 SAVE()메소드에 전달되고 다시 Mono를 반환하므로 flatMap을 사용한다.
         return item.flatMap(s -> this.itemRepository.save(s))
                 .map(savedItem -> ResponseEntity
                     .created(URI.create("/api/items/" + savedItem.getId()))
