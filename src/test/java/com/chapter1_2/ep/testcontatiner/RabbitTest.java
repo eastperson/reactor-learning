@@ -70,7 +70,7 @@ public class RabbitTest {
                .expectNextMatches(item -> {
                    assertThat(item.getName()).isEqualTo("Alf alarm clock");
                    assertThat(item.getDescription()).isEqualTo("nothing important");
-                   assertThat(item.getPrice()).isEqualTo(29.99);
+                   assertThat(item.getPrice()).isEqualTo(19.99);
                    return true;
                })
                 .expectNextMatches(item -> {
