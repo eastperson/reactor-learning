@@ -27,7 +27,7 @@ public class SpringAmqpItemService {
             // 큐를 익스체인지에 바인딩하는 방법을 지정
             bindings = @QueueBinding(
                 // 임의의 지속성 없는 익명 큐를 생성.
-                // @Queue의 인자로 큐의 이름을 지정. durable, exlusive, autoDelete 속성 지정 가능능
+                // @Queue의 인자로 큐의 이름을 지정. durable, exlusive, autoDelete 속성 지정 가능
                value = @Queue,
                 // @Exchange는 이 큐와 연결될 익스체인지를 지정.
                 // 예제에서는 hacking-spring-boot 익스체인지를 큐와 연결
