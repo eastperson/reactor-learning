@@ -2,7 +2,7 @@ package com.chapter1_2.ep.config;
 
 import com.chapter1_2.ep.repository.HttpTraceWrapperRepository;
 import com.chapter1_2.ep.repository.SpringDataHttpTraceRepository;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
@@ -67,8 +67,8 @@ public class AppConfig {
                 }
             };
 
-    @Bean
-    Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
+//    @Bean
+//    Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+//        return new Jackson2JsonMessageConverter();
+//    }
 }
