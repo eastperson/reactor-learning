@@ -71,7 +71,7 @@ public class ItemService {
                         })).flatMap(cart -> this.cartRepository.save(cart));
     }
 
-    Mono<Cart> removeOneFromCart(String cartId, String itemId) {
+    public Mono<Cart> removeOneFromCart(String cartId, String itemId) {
         return this.cartRepository.findById(cartId)
                 .defaultIfEmpty(new Cart(cartId))
                 .flatMap(cart -> cart.getCartItems().stream()

@@ -26,5 +26,7 @@ public interface ItemRepository extends ReactiveCrudRepository<Item,String> {
     // name OR description 검색
     Flux<Item> findByNameContainingOrDescriptionContainingAllIgnoreCase(String partialName, String partialDesc);
 
+    Flux<Item> findByName(String name);
+
 //    Flux<Item> findAllAsList();
 }

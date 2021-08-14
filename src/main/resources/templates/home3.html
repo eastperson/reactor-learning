@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Hacking with Spring Boot!</title>
+</head>
+<body>
+
+    <h1>
+        Welcome to Haking with Spring Boot!
+    </h1>
+
+    <p>
+    Over the span of this book, you'll build different parts of an e-coommerce system which will include fleshing out this web
+    template with dynamic content, using the power of Spring Boot.
+    </p>
+
+    <h2>
+        Inventory Management
+    </h2>
+
+    <div sec:auth="isAuthenticated()">
+        <table>
+            <tr>
+                <td>User:</td>
+                <td><span sec:authentication="name"></span></td>
+            </tr>
+            <tr>
+                <td>Authorities:</td>
+                <td th:text="${auth.authorities}"></td>
+            </tr>
+            <tr th:each="userAttribute : ${userAttributes}}">
+                <td th:text="${userAttribute.key}"></td>
+                <td th:text="${userAttribute.value}"></td>
+            </tr>
+        </table>
+        <form action="#" th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+
+</body>
+</html>
