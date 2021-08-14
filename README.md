@@ -1,6 +1,10 @@
 # reactor-learning
 Spring Web Flux 학습
 
+<h3>스프링 부트 실전 활용 마스터</h3>
+![350094868g](https://user-images.githubusercontent.com/66561524/129429115-560e9909-8665-4b63-8bbb-798fadbe6120.jpg)
+그렉 턴키스트 저/오명운 역/이일민 감수
+
 # Review Content
 
 <p>
